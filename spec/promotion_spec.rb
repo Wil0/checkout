@@ -6,7 +6,7 @@ describe Promotion do
   let(:checkout) {double :checkout}
 
   context 'when customer spends over £60' do
-    it 'customer gets 10% off of your purchase' do
+    it "customer gets #{(described_class::DISCOUNT * 100).round}% off of your purchase" do
       total_price = 61
       allow(checkout).to receive(:total).and_return total_price
       expect(promotion.discount(total_price)).to eq 6.1
