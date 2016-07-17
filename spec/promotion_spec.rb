@@ -1,7 +1,7 @@
 require 'promotion'
 
 describe Promotion do
-  subject(:promotion) {described_class.new()}
+  subject(:promotion) {described_class.new('001')}
 
   describe '#initialize' do
     it 'starts with a minimun amount spent to get a discount' do
