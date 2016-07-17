@@ -20,8 +20,8 @@ describe Promotion do
   describe '#discount_per_amount' do
     context 'when a customer spends over £60' do
       it "the customer gets 10% off of their purchase" do
-        total_price = 61
-        expect(promotion.discount_per_amount(total_price)).to eq 6.1
+        total_price = 60.01
+        expect(promotion.discount_per_amount(total_price)).to eq 6.00
       end
     end
 
@@ -38,8 +38,8 @@ describe Promotion do
     context 'when a customer buys more than one item of the same product' do
       it "the price per item is reduced" do
         items = ['001', '003', '001']
-        item_price = 9.25
         product = '001'
+        item_price = 9.25
         expect(promotion.new_discount_price(items, product)).to eq 8.50
       end
     end
