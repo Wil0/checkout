@@ -1,24 +1,30 @@
 class Promotion
 
-  AMOUNT_TO_GET_DISCOUNT = 60
-  DISCOUNT = 0.1
-  QTTY_FOR_DISCOUNT = 1
   NORMAL_PRICE = 9.25
   DISCOUNT_PRICE = 8.50
 
-  def discount(total)
-    get_discount?(total) ? (total *  DISCOUNT).round(2) : 0
+  attr_reader :amount_discount, :discount, :qtty_discount
+
+  def initialize(amount_discount = 60, discount = 0.1, qtty_discount = 1)
+    @amount_discount = amount_discount
+    @discount = discount
+    @qtty_discount = qtty_discount
+  end
+
+
+  def discount_per_amount(total)
+    get_discount?(total) ? (total *  @discount).round(2) : 0
   end
 
   def new_discount_price(items, product)
-    quantity_of_items(items)[product] > QTTY_FOR_DISCOUNT ?
+    quantity_of_items(items)[product] > @qtty_discount ?
     (DISCOUNT_PRICE) : (NORMAL_PRICE)
   end
 
   private
 
   def get_discount?(total)
-    total > AMOUNT_TO_GET_DISCOUNT
+    total > @amount_discount
   end
 
   def quantity_of_items(items)
