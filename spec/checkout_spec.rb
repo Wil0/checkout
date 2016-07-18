@@ -20,6 +20,10 @@ describe Checkout do
     it 'starts with a empty basket' do
       expect(checkout.basket).to eq []
     end
+
+    it 'starts with a promotion' do
+      expect(checkout.promotion).to eq promotion
+    end
   end
 
   describe '#scan' do
@@ -68,14 +72,14 @@ describe Checkout do
     end
   end
 
-  describe '#quantity' do
-    it 'gives the quantity of each item in the basket' do
-      checkout.scan(item1)
-      checkout.scan(item2)
-      q = {item1 => 1, item2 => 1}
-      expect(checkout.quantity).to eq q
-    end
-  end
+  # describe '#quantity' do
+  #   it 'gives the quantity of each item in the basket' do
+  #     checkout.scan(item1)
+  #     checkout.scan(item2)
+  #     q = {item1 => 1, item2 => 1}
+  #     expect(checkout.quantity).to eq q
+  #   end
+  # end
 
   describe '#subtotal' do
     it 'calculates the subtotal of the items in the basket' do
@@ -95,14 +99,21 @@ describe Checkout do
     context 'when a customer spends more than £60' do
       it 'gives the total amount after applying discount' do
         checkout.scan(item3)
-        expect(checkout.total).to eq 66.78
+        expect(checkout.total).to eq '£66.78'
       end
     end
 
     context 'when a customer spends £60 or less' do
       it 'gives the total amount without applying discount' do
-        expect(checkout.total).to eq 29.20
+        expect(checkout.total).to eq '£29.20'
       end
     end
   end
+  #
+  # describe '#print_receipt' do
+  #   it 'prints the ticket' do
+  #     checkout.basket
+  #     expect(checkout.print_receipt).to eq 'Basket:001,002,003\n Totalpriceexpected:£66.78'
+  #   end
+  # end
 end
