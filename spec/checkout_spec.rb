@@ -2,14 +2,19 @@ require 'checkout'
 describe Checkout do
   subject(:checkout) {described_class.new(promotion)}
 
-  let (:promotion) { double :promotion, discount_per_amount: 0,
-                      special_offer: {code: "001", name: "Lavender", price: 8.50},
-                      new_discount_price: [
-                        {:code=>"001", :name=>"Lavender", :price=>9.25},
-                        ['001', 8.50]
-                      ],
-                      quantity_of_each_item: [{:code=>"001", :name=>"Lavender", :price=>9.25}]
+  let (:promotion) { double :promotion, amount_discount: 60,
+                      discount: 0.1,
+                      qtty_discount: 1,
+                      special_offer: {
+                                      code: "001",
+                                      name: "Lavender",
+                                      price: 8.50
+                                    }
                     }
+  let(:item1) { {code: '001', name: 'Lavender', price: 9.25} }
+  let(:item2) { {code: '002', name: 'Cufflinks', price: 19.95} }
+  let(:item3) { {code: '003', name: 'T-shirt', price: 45.00} }
+
 
   describe '#initialize' do
     it 'starts with a empty basket' do
@@ -18,85 +23,62 @@ describe Checkout do
   end
 
   describe '#scan' do
-    it 'adds scaned item to the basket' do
-
-      item = {code: '001', name: 'Lavender', price: 9.25}
-
-      checkout.scan(item)
-      expect(checkout.basket).to eq [item]
+    it 'adds scaned items to the basket' do
+      checkout.scan(item1)
+      checkout.scan(item2)
+      expect(checkout.basket).to eq [item1, item2]
     end
   end
 
   describe '#apply_qtty_discount' do
-    # before :each do
-      item1 = {code: '001', name: 'Lavender', price: 9.25}
-      item2 = {code: '003', name: 'Cufflinks', price: 19.95}
-    # end
-
-    it 'updates the price of the item if it qualifies for discount' do
-
-        2.times do checkout.scan(item1)
-        end
+    context 'when the customer buys two or more items of the same product' do
+      it 'updates the price of the item' do
+        2.times { checkout.scan(item1) }
         checkout.scan(item2)
-        expect{ checkout.apply_qtty_discount }.to change{item1[:price]}.from(9.25).to(8.50)
+        new_price = promotion.special_offer[:price]
+        expect{ checkout.apply_qtty_discount }.to change{item1[:price]}.from(item1[:price]).to(new_price)
+      end
     end
-    it 'does not update the price of the item if it does not qualify for discount' do
-      item1 = {code: '001', name: 'Lavender', price: 9.25}
-      item2 = {code: '003', name: 'Cufflinks', price: 19.95}
+
+    context 'when the customer buys one item of the same product' do
+      it 'does not update the price of the item' do
         checkout.scan(item1)
         checkout.scan(item2)
         expect{ checkout.apply_qtty_discount }.not_to change{item1[:price]}
+      end
     end
   end
 
   describe '#discount_per_amount' do
     context 'when a customer spends over £60' do
-      let (:promotion) {double :promotion, amount_discount: 60,
-                        discount: 0.1}
       it "the customer gets 10% off of their purchase" do
-        item1 = {code: '001', name: 'Lavender', price: 9.25}
-        item2 = {code: '003', name: 'Cufflinks', price: 19.95}
-        item3 = {code: '002', name: 'T-shirt', price: 45.00}
         checkout.scan(item1)
         checkout.scan(item2)
         checkout.scan(item3)
-        subtotal = checkout.subtotal
-        expect(checkout.discount_per_amount(subtotal)).to eq 7.42
+        expect(checkout.discount_per_amount).to eq 7.42
       end
     end
 
     context 'when a customer spends £60 or less' do
-      let (:promotion) {double :promotion, amount_discount: 60,
-                        discount: 0.1}
       it 'the customer does not get a discount' do
-        item1 = {code: '001', name: 'Lavender', price: 9.25}
-        item2 = {code: '003', name: 'Cufflinks', price: 19.95}
         checkout.scan(item1)
         checkout.scan(item2)
-        subtotal = checkout.subtotal
-        expect(checkout.discount_per_amount(subtotal)).to eq 0
+        expect(checkout.discount_per_amount).to eq 0
       end
     end
   end
 
   describe '#quantity' do
     it 'gives the quantity of each item in the basket' do
-      item1 = {code: '001', name: 'Lavender', price: 9.25}
-      item2 = {code: '003', name: 'Cufflinks', price: 19.95}
       checkout.scan(item1)
       checkout.scan(item2)
-      q = {{:code=>"001", :name=>"Lavender", :price=>9.25}=>1, {:code=>"003", :name=>"Cufflinks", :price=>19.95}=>1}
+      q = {item1 => 1, item2 => 1}
       expect(checkout.quantity).to eq q
     end
   end
 
   describe '#subtotal' do
     it 'calculates the subtotal of the items in the basket' do
-
-      item1 = {code: '001', name: 'Lavender', price: 9.25}
-      item1 = {code: '001', name: 'Lavender', price: 9.25}
-      item2 = {code: '003', name: 'Cufflinks', price: 19.95}
-
       2.times do checkout.scan(item1)
       end
       checkout.scan(item2)
@@ -106,32 +88,19 @@ describe Checkout do
   end
 
   describe '#total' do
-    let (:promotion) { double :promotion, amount_discount: 60,
-      discount_per_amount: 7.42,
-      discount: 0.1,
-      special_offer: ['001', 8.50],
-      new_discount_price: [{:code=>"001", :name=>"Lavender", :price=>9.25},
-        ['001', 8.50]
-      ],
-      quantity_of_each_item: [{:code=>"001", :name=>"Lavender", :price=>9.25}]}
+    before :each do
+      checkout.scan(item1)
+      checkout.scan(item2)
+    end
     context 'when a customer spends more than £60' do
       it 'gives the total amount after applying discount' do
-        item1 = {code: '001', name: 'Lavender', price: 9.25}
-        item2 = {code: '003', name: 'Cufflinks', price: 19.95}
-        item3 = {code: '002', name: 'T-shirt', price: 45.00}
-        checkout.scan(item1)
-        checkout.scan(item2)
         checkout.scan(item3)
         expect(checkout.total).to eq 66.78
       end
     end
 
-    context 'when a customer does spend £60 or less' do
+    context 'when a customer spends £60 or less' do
       it 'gives the total amount without applying discount' do
-        item1 = {code: '001', name: 'Lavender', price: 9.25}
-        item2 = {code: '003', name: 'Cufflinks', price: 19.95}
-        checkout.scan(item1)
-        checkout.scan(item2)
         expect(checkout.total).to eq 29.20
       end
     end
