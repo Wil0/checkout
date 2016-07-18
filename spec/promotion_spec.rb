@@ -58,8 +58,7 @@ describe Promotion do
                  {code: '003', name: 'T-shirt', price: 45.00}
                ]
         special_offer = {code: '001', name: 'Lavender', price: 9.25}
-        item_price =  9.25
-        expect(promotion.new_discount_price(items, special_offer)).to eq 9.25
+        expect{promotion.new_discount_price(items, special_offer)}.not_to change{items[0][:price]}
       end
     end
   end

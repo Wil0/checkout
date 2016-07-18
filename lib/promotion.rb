@@ -1,8 +1,5 @@
 class Promotion
 
-  NORMAL_PRICE = 9.25
-  DISCOUNT_PRICE = 8.50
-
   attr_reader :amount_discount, :discount, :qtty_discount, :special_offer
 
   def initialize(amount_discount = 60, discount = 0.1, qtty_discount = 1,
@@ -19,8 +16,9 @@ class Promotion
   end
 
   def new_discount_price(items, special_offer)
-    quantity_of_each_item(items)[special_offer] > @qtty_discount ?
-      (DISCOUNT_PRICE) : (NORMAL_PRICE)
+    if quantity_of_each_item(items)[special_offer] > @qtty_discount
+      @special_offer[:price]
+    end
   end
 
   def quantity_of_each_item(items)
