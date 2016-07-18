@@ -25,13 +25,11 @@ class Promotion
 
   def quantity_of_each_item(items)
     b= Hash.new(0)
-    basket = items.map{|item| item}
-    basket.map{ |i| b[i] += 1 }
+    items.map{ |i| b[i] += 1 }
     b
   end
 
   private
-
 
   def get_discount?(total)
     total > @amount_discount

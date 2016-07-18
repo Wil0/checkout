@@ -15,9 +15,14 @@
     def apply_qtty_discount
       offer = @promotion.special_offer
       @basket.map do |item|
-        item[:price] = offer[:price] if item[:code] == offer[:code]
+        item[:price] = offer[:price] if item[:code] == offer[:code] && quantity[item] > 1
       end
-      p @basket
+    end
+
+    def quantity
+      b= Hash.new(0)
+      @basket.map{ |i| b[i] += 1 }
+       p b
     end
 
     def subtotal

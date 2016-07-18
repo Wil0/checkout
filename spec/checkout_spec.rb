@@ -28,20 +28,39 @@ describe Checkout do
   end
 
   describe '#apply_qtty_discount' do
+    # before :each do
+      item1 = {code: '001', name: 'Lavender', price: 9.25}
+      item2 = {code: '003', name: 'Cufflinks', price: 19.95}
+    # end
+
     it 'updates the price of the item if it qualifies for discount' do
-        item1 = {code: '001', name: 'Lavender', price: 9.25}
-        item1 = {code: '001', name: 'Lavender', price: 9.25}
-        item2 = {code: '003', name: 'Cufflinks', price: 19.95}
 
         2.times do checkout.scan(item1)
         end
         checkout.scan(item2)
         expect{ checkout.apply_qtty_discount }.to change{item1[:price]}.from(9.25).to(8.50)
     end
+    it 'does not update the price of the item if it does not qualify for discount' do
+      item1 = {code: '001', name: 'Lavender', price: 9.25}
+      item2 = {code: '003', name: 'Cufflinks', price: 19.95}
+        checkout.scan(item1)
+        checkout.scan(item2)
+        expect{ checkout.apply_qtty_discount }.not_to change{item1[:price]}
+    end
+  end
+
+  describe '#quantity' do
+    it 'gives the quantity of each item in the basket' do
+      item1 = {code: '001', name: 'Lavender', price: 9.25}
+      item2 = {code: '003', name: 'Cufflinks', price: 19.95}
+      checkout.scan(item1)
+      checkout.scan(item2)
+      q = {{:code=>"001", :name=>"Lavender", :price=>9.25}=>1, {:code=>"003", :name=>"Cufflinks", :price=>19.95}=>1}
+      expect(checkout.quantity).to eq q
+    end
   end
 
   describe '#subtotal' do
-
     it 'calculates the subtotal of the items in the basket' do
 
       item1 = {code: '001', name: 'Lavender', price: 9.25}
