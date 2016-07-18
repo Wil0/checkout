@@ -1,7 +1,7 @@
 require 'promotion'
 
 describe Promotion do
-  subject(:promotion) {described_class.new('001')}
+  subject(:promotion) {described_class.new()}
 
   describe '#initialize' do
     it 'starts with a minimun amount spent to get a discount' do
@@ -14,6 +14,10 @@ describe Promotion do
 
     it 'starts with a minimun quantity to get a discount' do
       expect(promotion.qtty_discount).to eq 1
+    end
+
+    it 'starts with a special offer' do
+      expect(promotion.special_offer).to eq ({code: '001', name: 'Lavender', price: 8.50})
     end
   end
 
@@ -37,19 +41,25 @@ describe Promotion do
 
     context 'when a customer buys more than one item of the same product' do
       it "the price per item is reduced" do
-        items = ['001', '003', '001']
-        product = '001'
+        items = [{code: '001', name: 'Lavender', price: 9.25},
+                 {code: '001', name: 'Lavender', price: 9.25},
+                 {code: '002', name: 'T-shirt', price: 45.00}
+               ]
+        special_offer = {code: '001', name: 'Lavender', price: 9.25}
         item_price = 9.25
-        expect(promotion.new_discount_price(items, product)).to eq 8.50
+        expect(promotion.new_discount_price(items, special_offer)).to eq 8.50
       end
     end
 
     context 'when a customer buys one item of the same product' do
       it 'the price does not change' do
-        items = ['001', '002', '003']
-        product = '001'
+        items = [{code: '001', name: 'Lavender', price: 9.25},
+                 {code: '002', name: 'Cufflinks', price: 19.95},
+                 {code: '003', name: 'T-shirt', price: 45.00}
+               ]
+        special_offer = {code: '001', name: 'Lavender', price: 9.25}
         item_price =  9.25
-        expect(promotion.new_discount_price(items, product)).to eq 9.25
+        expect(promotion.new_discount_price(items, special_offer)).to eq 9.25
       end
     end
   end
