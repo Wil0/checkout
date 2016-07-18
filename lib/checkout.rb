@@ -9,7 +9,6 @@
 
     def scan(item)
       @basket << item
-      # p @promotion.new_discount_price(@basket, @promotion.special_offer)
     end
 
     def apply_qtty_discount
@@ -19,10 +18,16 @@
       end
     end
 
+    def discount_per_amount(subtotal)
+      subtotal  = self.subtotal
+      get_discount? ? (subtotal *  @promotion.discount).round(2) : 0
+    end
+
+
     def quantity
       b= Hash.new(0)
       @basket.map{ |i| b[i] += 1 }
-       p b
+      b
     end
 
     def subtotal
@@ -30,8 +35,14 @@
     end
 
     def total
-      amount = self.subtotal
-      discount = @promotion.discount_per_amount(amount)
-      amount - discount
+      subtotal - discount_per_amount(subtotal)
     end
+    def get_discount?
+      p subtotal
+      p @promotion.amount_discount
+      subtotal > @promotion.amount_discount
+    end
+
+    private
+
 end

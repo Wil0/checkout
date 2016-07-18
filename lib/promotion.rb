@@ -9,28 +9,4 @@ class Promotion
     @qtty_discount = qtty_discount
     @special_offer = special_offer
   end
-
-
-  def discount_per_amount(total)
-    get_discount?(total) ? (total *  @discount).round(2) : 0
-  end
-
-  def new_discount_price(items, special_offer)
-    if quantity_of_each_item(items)[special_offer] > @qtty_discount
-      @special_offer[:price]
-    end
-  end
-
-  def quantity_of_each_item(items)
-    b= Hash.new(0)
-    items.map{ |i| b[i] += 1 }
-    b
-  end
-
-  private
-
-  def get_discount?(total)
-    total > @amount_discount
-  end
-
 end

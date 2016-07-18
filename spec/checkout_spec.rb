@@ -49,6 +49,36 @@ describe Checkout do
     end
   end
 
+  describe '#discount_per_amount' do
+    context 'when a customer spends over £60' do
+      let (:promotion) {double :promotion, amount_discount: 60,
+                        discount: 0.1}
+      it "the customer gets 10% off of their purchase" do
+        item1 = {code: '001', name: 'Lavender', price: 9.25}
+        item2 = {code: '003', name: 'Cufflinks', price: 19.95}
+        item3 = {code: '002', name: 'T-shirt', price: 45.00}
+        checkout.scan(item1)
+        checkout.scan(item2)
+        checkout.scan(item3)
+        subtotal = checkout.subtotal
+        expect(checkout.discount_per_amount(subtotal)).to eq 7.42
+      end
+    end
+
+    context 'when a customer spends £60 or less' do
+      let (:promotion) {double :promotion, amount_discount: 60,
+                        discount: 0.1}
+      it 'the customer does not get a discount' do
+        item1 = {code: '001', name: 'Lavender', price: 9.25}
+        item2 = {code: '003', name: 'Cufflinks', price: 19.95}
+        checkout.scan(item1)
+        checkout.scan(item2)
+        subtotal = checkout.subtotal
+        expect(checkout.discount_per_amount(subtotal)).to eq 0
+      end
+    end
+  end
+
   describe '#quantity' do
     it 'gives the quantity of each item in the basket' do
       item1 = {code: '001', name: 'Lavender', price: 9.25}
@@ -76,13 +106,15 @@ describe Checkout do
   end
 
   describe '#total' do
+    let (:promotion) { double :promotion, amount_discount: 60,
+      discount_per_amount: 7.42,
+      discount: 0.1,
+      special_offer: ['001', 8.50],
+      new_discount_price: [{:code=>"001", :name=>"Lavender", :price=>9.25},
+        ['001', 8.50]
+      ],
+      quantity_of_each_item: [{:code=>"001", :name=>"Lavender", :price=>9.25}]}
     context 'when a customer spends more than £60' do
-      let (:promotion) { double :promotion, discount_per_amount: 7.42,
-                        special_offer: ['001', 8.50],
-                        new_discount_price: [{:code=>"001", :name=>"Lavender", :price=>9.25},
-                                             ['001', 8.50]
-                                             ],
-                        quantity_of_each_item: [{:code=>"001", :name=>"Lavender", :price=>9.25}]}
       it 'gives the total amount after applying discount' do
         item1 = {code: '001', name: 'Lavender', price: 9.25}
         item2 = {code: '003', name: 'Cufflinks', price: 19.95}
