@@ -1,7 +1,18 @@
 require 'promotion'
 
 describe Promotion do
-  subject(:promotion) {described_class.new()}
+  subject(:promotion) {described_class.new(args)}
+
+  let(:args) { {
+          amount_discount: 60,
+          discount: 0.1,
+          qtty_discount: 1,
+          special_offer:{
+                          code: "001",
+                          name: "Lavender",
+                          price: 8.50
+                        }
+          } }
 
   describe '#initialize' do
     it 'starts with a minimun amount spent to get a discount' do
