@@ -28,11 +28,11 @@ Run ```$ bundle install```
 ### Overview
 
 The store has a list of products as per below:
-­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­­
-| Product code  | Name                 |  Price  |
-| ------------- |:-------------:       |  -----: |
-| 001           | Lavenderheart       |  £9.25  |
-| 002           | Personalisedcufflinks| £45.00  |
+
+| Product code  | Name                  |  Price  |
+| ------------- |:-------------:        |  -----: |
+| 001           | Lavenderheart         |  £9.25  |
+| 002           | Personalisedcufflinks | £45.00  |
 | 003           | Kids T-­shirt         | £19.95  |
 
 In order to offer promotions as an incentive for the customers to purchase these items, promotional rules can be used at checkout.
