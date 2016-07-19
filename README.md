@@ -125,6 +125,16 @@ Total price expected:£73.76
 
 ## Running the tests
 
+Running ```$ coveralls report``` will show coverage tests
+
+```
+ * lib/checkout.rb => 100%
+  * lib/promotion.rb => 100%
+  * spec/checkout_spec.rb => 100%
+  * spec/promotion_spec.rb => 100%
+  ```
+  
+
 Running ``` $ rspec``` should show you the below:
 
 ![Tests](https://cloud.githubusercontent.com/assets/16989462/16946474/9e631c10-4da1-11e6-9f1c-e1e5bdef6747.png)
