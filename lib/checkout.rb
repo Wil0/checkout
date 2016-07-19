@@ -15,7 +15,7 @@
       'Basket: ' + @pre_basket.map {|item| item[:code]}.join(',')
     end
 
-    def apply_qtty_discount
+    def quantity_discount
       offer = promotion.special_offer
       q = promotion.qtty_discount
       @pre_basket.map do |item|
@@ -26,18 +26,18 @@
       @pre_basket
     end
 
-    def discount_per_amount
+    def discount_total_amount
       get_discount? ? (subtotal *  promotion.discount).round(2) : 0
     end
 
 
     def subtotal
-      apply_qtty_discount
+      quantity_discount
       @pre_basket.map{|item| item[:price]}.reduce(:+)
     end
 
     def total
-      "Total price expected: £#{"%.2f" % (subtotal - discount_per_amount)}"
+      "Total price expected: £#{"%.2f" % (subtotal - discount_total_amount)}"
     end
 
     private
