@@ -35,11 +35,11 @@ The store has a list of products as per below:
 
 | Product code  | Name                  |  Price  |
 | ------------- |:-------------:        |  -----: |
-| 001           | Lavenderheart         |  £9.25  |
-| 002           | Personalisedcufflinks | £45.00  |
+| 001           | Lavender heart         |  £9.25  |
+| 002           | Personalised cufflinks | £45.00  |
 | 003           | Kids T-­shirt         | £19.95  |
 
-In order to offer promotions as an incentive for the customers to purchase these items, promotional rules can be used at checkout.
+In order to offer promotions as an incentive for the customers to purchase these items, promotional rules can be used at check out.
 
 Promotional rules are set by default and include:
 * Amount spent to get a discount
