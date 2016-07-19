@@ -5,9 +5,13 @@ This check­out can scan items in any order,  accepts different promotions you w
 
 ### Prerequisities
 
-1) ```$ git clone```
+1)
+```
+$ git clone git@github.com:Wil0/checkout.git
+$ cd checkout
+```
 
-2) This program uses **Ruby 2.3.0**
+2) This project uses **Ruby 2.3.0**
 * Check if your version is 2.3.0
 ```
 $ ruby -v
@@ -60,7 +64,7 @@ Promotion.new(100, 0.05, 2, {code: '003', name:' Personalised cufflinks', price:
 
 ### Give it a go
 
-##### I) The easy way
+#### I) The easy way
 
 1) Install PRY if you don't have it yet
 ```
@@ -71,19 +75,19 @@ $ gem install pry
 
 3) Go to the final step
 
-##### II) The not so easy way
+#### II) The not so easy way
 
 1) Go to the command line and open up your favourite REPL.
 
-2) Require 'ckeckout.rb' and 'promotion.rb'.
+2) Require '/lib/ckeckout.rb' and './lib/promotion.rb'.
 
 3) Create an instance of both classes and require promotion as a parameter of checkout.
 
-4) Create the below three items (or more if you feel adventurous!)
+4) Create the below three items or more if you feel adventurous! Items are in the final step.
 
-##### The Final Step
+#### The Final Step
 
-Either way will lead you to this point
+Either way will lead you to this point.
 
 Assuming the available items can be represented like:
 ```
