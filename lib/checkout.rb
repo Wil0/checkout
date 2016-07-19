@@ -1,25 +1,29 @@
   class Checkout
 
-    attr_reader :basket, :promotion
+    attr_reader :pre_basket, :promotion
 
     def initialize(promotional_rules)
       @promotion = promotional_rules
-      @basket = []
+      @pre_basket = []
     end
 
     def scan(item)
-      @basket << item
+      @pre_basket << item
+    end
+
+    def basket
+      'Basket: ' + @pre_basket.map {|item| item[:code]}.join(',')
     end
 
     def apply_qtty_discount
       offer = promotion.special_offer
       q = promotion.qtty_discount
-      @basket.map do |item|
+      @pre_basket.map do |item|
         if item[:code] == offer[:code] && quantity[item] > q
           item[:price] = offer[:price]
         end
       end
-      @basket
+      @pre_basket
     end
 
     def discount_per_amount
@@ -29,22 +33,18 @@
 
     def subtotal
       apply_qtty_discount
-      @basket.map{|item| item[:price]}.reduce(:+)
+      @pre_basket.map{|item| item[:price]}.reduce(:+)
     end
 
     def total
-      "£#{"%.2f" % (subtotal - discount_per_amount)}"
-    end
-
-    def print_receipt
-       p basket
+      "Totalpriceexpected: £#{"%.2f" % (subtotal - discount_per_amount)}"
     end
 
     private
 
     def quantity
       b= Hash.new(0)
-      @basket.map{ |i| b[i] += 1 }
+      @pre_basket.map{ |i| b[i] += 1 }
       b
     end
 
