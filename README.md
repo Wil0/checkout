@@ -1,5 +1,5 @@
 # Checkout
-This check­out can scan items in any order,  accepts different promotions you want to use during the checkout and gives a list of items in the basket and their total amount.
+This check­out can scan items in any order,  accepts different promotions you want to use during the check out and gives a list of items in the basket and their total amount.
 
 ## Getting Started
 
