@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/emilio/projects/personal_projects/babylon/spec/checkout_spec.rb": [
+      "/Users/emilio/Desktop/checkout/spec/checkout_spec.rb": [
         1,
         1,
         12,
@@ -114,7 +114,7 @@
         null,
         null
       ],
-      "/Users/emilio/projects/personal_projects/babylon/lib/checkout.rb": [
+      "/Users/emilio/Desktop/checkout/lib/checkout.rb": [
         1,
         null,
         1,
@@ -133,44 +133,45 @@
         null,
         null,
         1,
-        12,
-        12,
-        12,
-        32,
+        17,
+        17,
+        17,
+        45,
         6,
         null,
         null,
-        12,
+        17,
         null,
         null,
         1,
-        4,
+        6,
         null,
         null,
         null,
         1,
-        9,
-        33,
+        14,
+        51,
         null,
         null,
         1,
+        2,
         2,
         null,
         null,
         1,
         null,
         1,
-        15,
-        56,
-        15,
+        20,
+        74,
+        20,
         null,
         null,
         1,
-        4,
+        6,
         null,
         null
       ],
-      "/Users/emilio/projects/personal_projects/babylon/spec/promotion_spec.rb": [
+      "/Users/emilio/Desktop/checkout/spec/promotion_spec.rb": [
         1,
         null,
         1,
@@ -195,7 +196,7 @@
         null,
         null
       ],
-      "/Users/emilio/projects/personal_projects/babylon/lib/promotion.rb": [
+      "/Users/emilio/Desktop/checkout/lib/promotion.rb": [
         1,
         null,
         1,
@@ -210,6 +211,6 @@
         null
       ]
     },
-    "timestamp": 1468924641
+    "timestamp": 1468926224
   }
 }

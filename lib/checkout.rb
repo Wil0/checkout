@@ -27,7 +27,7 @@
     end
 
     def discount_total_amount
-      get_discount? ? (subtotal *  promotion.discount).round(2) : 0
+      get_discount? ? (subtotal *  promotion.discount).round(3) : 0
     end
 
 
@@ -37,7 +37,8 @@
     end
 
     def total
-      "Total price expected: £#{"%.2f" % (subtotal - discount_total_amount)}"
+      p subtotal - discount_total_amount
+      "Total price expected: £#{"%.2f" % ((subtotal - discount_total_amount)).round(2)}"
     end
 
     private
