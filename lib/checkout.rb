@@ -37,7 +37,7 @@
     end
 
     def total
-      "Totalpriceexpected: £#{"%.2f" % (subtotal - discount_per_amount)}"
+      "Total price expected: £#{"%.2f" % (subtotal - discount_per_amount)}"
     end
 
     private

@@ -98,13 +98,13 @@ describe Checkout do
     context 'when a customer spends more than £60' do
       it 'gives the total amount after applying discount' do
         checkout.scan(item3)
-        expect(checkout.total).to eq 'Totalpriceexpected: £66.78'
+        expect(checkout.total).to eq 'Total price expected: £66.78'
       end
     end
 
     context 'when a customer spends £60 or less' do
       it 'gives the total amount without applying discount' do
-        expect(checkout.total).to eq 'Totalpriceexpected: £29.20'
+        expect(checkout.total).to eq 'Total price expected: £29.20'
       end
     end
   end
